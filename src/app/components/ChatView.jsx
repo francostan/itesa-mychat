@@ -1,45 +1,52 @@
-// ChatView.js
+"use client"
 import { Box, Input, Button } from '@chakra-ui/react';
+import { Flex } from "@chakra-ui/react";
+import React, { useState } from "react";
+import Divider from "../components/ui/Divider";
+import Footer from "../components/ui/Footer";
+import Header from "../components/ui/Header";
+import Messages from "../components/ui/Messages";
 
 const ChatView = () => {
-  return (
-    <Box
-      backgroundColor="gray.200" // Color de fondo opaco
-      height="100vh" // Altura completa de la pantalla
-      display="flex"
-      flexDirection="column"
-      justifyContent="center"
-      alignItems="center"
-    >
-      {/* Aquí irá el contenido del chat */}
-      <Box
-        backgroundColor="white" // Fondo del área de chat
-        padding="4"
-        borderRadius="md"
-        boxShadow="md"
-        width="300px" // Ancho del área de chat
-        marginBottom="4"
-      >
-        {/* Aquí irán los mensajes del chat */}
-        {/* Puedes mapear a través de tus mensajes y mostrarlos */}
-        {/* Ejemplo: */}
-        {/* <Message text="Hola, ¿cómo estás?" /> */}
-        {/* <Message text="¡Todo bien, gracias!" /> */}
-      </Box>
+  const [messages, setMessages] = useState([
+    { from: "computer", text: "Hi, My Name is HoneyChat" },
+    { from: "me", text: "Hey there" },
+    { from: "me", text: "Myself Ferin Patel" },
+    {
+      from: "computer",
+      text:
+        "Nice to meet you. You can send me message and i'll reply you with same message."
+    }
+  ]);
+  const [inputMessage, setInputMessage] = useState("");
 
-      {/* Área para escribir mensajes */}
-      <Box
-        display="flex"
-        alignItems="center"
-        width="300px" // Ancho del área de entrada de mensajes
-      >
-        <Input
-          placeholder="Escribe tu mensaje..."
-          marginRight="2"
+  const handleSendMessage = () => {
+    if (!inputMessage.trim().length) {
+      return;
+    }
+    const data = inputMessage;
+
+    setMessages((old) => [...old, { from: "me", text: data }]);
+    setInputMessage("");
+
+    setTimeout(() => {
+      setMessages((old) => [...old, { from: "computer", text: data }]);
+    }, 1000);
+  };
+  return (
+    <Flex w="100%" justify="center" align="center" maxHeight={["100vh", "100vh", "90vh"]} minHeight="90vh">
+      <Flex w={["100%", "100%", "40%"]} h="90%" flexDir="column">
+        <Header />
+        <Divider />
+        <Messages messages={messages} />
+        <Divider />
+        <Footer
+          inputMessage={inputMessage}
+          setInputMessage={setInputMessage}
+          handleSendMessage={handleSendMessage}
         />
-        <Button colorScheme="teal">Enviar</Button>
-      </Box>
-    </Box>
+      </Flex>
+    </Flex>
   );
 };
 
