@@ -5,7 +5,7 @@ import bcrypt from "bcrypt";
 import User from "../../../models/User";
 import { connectToDatabase } from "../../../lib/mongodb";
 
-export const authOptions: any = {
+const options = {
   providers: [
     CredentialsProvider({
       id: "credentials",
@@ -42,5 +42,4 @@ export const authOptions: any = {
   },
 };
 
-export const handler = NextAuth(authOptions);
-export { handler as GET, handler as POST };
+export default NextAuth(options);
