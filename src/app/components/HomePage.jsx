@@ -1,3 +1,4 @@
+"use client";
 import { Box } from '@chakra-ui/react';
 import HomeCard from './cards/HomeCard';
 import { useSession } from 'next-auth/react';
