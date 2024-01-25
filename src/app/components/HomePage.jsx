@@ -1,5 +1,6 @@
 import ChatView from './ChatView';
 import { Box } from '@chakra-ui/react';
+import HomeCard from './cards/HomeCard';
 
 const HomePage = () => {
   return (
@@ -11,7 +12,7 @@ const HomePage = () => {
       justifyContent="center"
       alignItems="center"
     >
-      <ChatView />
+      <HomeCard />
     </Box>
   );
 };
