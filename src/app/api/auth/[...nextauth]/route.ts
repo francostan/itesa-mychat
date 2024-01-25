@@ -6,7 +6,7 @@ import User from "../../../models/User";
 import { connectToDatabase } from "../../../lib/mongodb";
 
 const options = {
-  providers: [
+ providers: [
     CredentialsProvider({
       id: "credentials",
       name: "Credentials",
@@ -32,14 +32,15 @@ const options = {
         }
       },
     }),
-  ],
-  callbacks: {
+ ],
+ callbacks: {
     async signIn({ user, account }: { user: AuthUser; account: Account }) {
       if (account?.provider == "credentials") {
         return true;
       }
     },
-  },
+ },
 };
 
-export default NextAuth(options);
+export const GET = NextAuth(options);
+export const POST = NextAuth(options);
