@@ -1,6 +1,5 @@
 import ChatView from './ChatView';
 import { Box } from '@chakra-ui/react';
-import LoginCard from './cards/LoginCard';
 
 const HomePage = () => {
   return (

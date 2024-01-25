@@ -1,5 +1,5 @@
-"use client"
-import { Box, Input, Button } from '@chakra-ui/react';
+"use client";
+import { Box, Input, Button } from "@chakra-ui/react";
 import { Flex } from "@chakra-ui/react";
 import React, { useState } from "react";
 import Divider from "../components/ui/Divider";
@@ -9,14 +9,13 @@ import Messages from "../components/ui/Messages";
 
 const ChatView = () => {
   const [messages, setMessages] = useState([
-    { from: "computer", text: "Hi, My Name is HoneyChat" },
+    { from: "computer", text: "Hi, My Name is Valeria" },
     { from: "me", text: "Hey there" },
-    { from: "me", text: "Myself Ferin Patel" },
+    { from: "me", text: "Myself Franui" },
     {
       from: "computer",
-      text:
-        "Nice to meet you. You can send me message and i'll reply you with same message."
-    }
+      text: "Nice to meet you. You can send me message and i'll reply you with same message.",
+    },
   ]);
   const [inputMessage, setInputMessage] = useState("");
 
@@ -34,7 +33,13 @@ const ChatView = () => {
     }, 1000);
   };
   return (
-    <Flex w="100%" justify="center" align="center" maxHeight={["100vh", "100vh", "90vh"]} minHeight="90vh">
+    <Flex
+      w="100%"
+      justify="center"
+      align="center"
+      maxHeight={["100vh", "100vh", "90vh"]}
+      minHeight="90vh"
+    >
       <Flex w={["100%", "100%", "40%"]} h="90%" flexDir="column">
         <Header />
         <Divider />
