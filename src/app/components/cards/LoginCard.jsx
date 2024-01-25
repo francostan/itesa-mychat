@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Flex,
   Heading,
@@ -10,13 +10,16 @@ import {
   InputLeftElement,
   chakra,
   Box,
-  Link,
   Avatar,
   FormControl,
   FormHelperText,
   InputRightElement,
 } from "@chakra-ui/react";
+import Link from "next/link";
 import { FaUserAlt, FaLock } from "react-icons/fa";
+import { useSnackbar } from "notistack";
+import { useRouter } from "next/navigation";
+import { signIn, useSession } from "next-auth/react";
 
 const CFaUserAlt = chakra(FaUserAlt);
 const CFaLock = chakra(FaLock);
@@ -27,6 +30,16 @@ const LoginCard = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [isValidating, setIsValidating] = useState(false);
   const [error, setError] = useState("");
+
+  const { enqueueSnackbar } = useSnackbar();
+  const router = useRouter();
+  const session = useSession();
+
+  useEffect(() => {
+    if(session?.status === "authenticated"){
+      router.replace("/");
+    }
+  }, [session, router]);
 
   const validateEmail = (value) => {
     const emailRegex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/;
@@ -45,11 +58,27 @@ const LoginCard = () => {
     setIsValidating(true);
 
     try {
-      // Add your login logic here
+      const res = await signIn("credentials", {
+        email,
+        password,
+        redirect: false,
+      });
+
+      if(res?.error){
+        enqueueSnackbar(res.error, { variant: "error" });
+        console.log(res.error);
+        setIsValidating(false);
+      } else if(res?.url) {
+        enqueueSnackbar("Login successful", { variant: "success" });
+        router.replace("/");
+      } else {
+        enqueueSnackbar("An error occurred while logging in", { variant: "error" });
+        console.log(res);
+        setIsValidating(false);
+      }
+
     } catch (error) {
       console.log(error);
-    } finally {
-      setIsValidating(false);
     }
   };
 
@@ -126,9 +155,12 @@ const LoginCard = () => {
           </form>
         </Box>
       </Stack>
-      <Box>
+      <Box mt={4}>
         New to us?{" "}
-        <Link color="teal.500" href="#">
+        <Link
+          style={{ color: "blue", margin: "0 5px", cursor: "pointer" }}
+          href="/auth/register"
+        >
           Sign Up
         </Link>
       </Box>

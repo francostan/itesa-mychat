@@ -12,29 +12,41 @@ import {
   InputLeftElement,
   FormControl,
   InputRightElement,
-  Link,
+  Text,
 } from "@chakra-ui/react";
-import { EmailIcon, LockIcon, AddIcon } from "@chakra-ui/icons"; // Cambiado a iconos de Chakra UI
+import { EmailIcon, LockIcon, AddIcon } from "@chakra-ui/icons";
+import { useSnackbar } from "notistack";
+import Link from "next/link";
+import { useRouter } from "next/navigation";
+import { useSession } from "next-auth/react";
 
-const RegisterCard = ({ handleClose }) => {
+const RegisterCard = () => {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [phone, setPhone] = useState("");
-  const [countryCode, setCountryCode] = useState("+54");
+  const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState("");
-  const [loading, setLoading] = useState(false);
+
+  const router = useRouter();
+  const session = useSession();
+
+  useEffect(() => {
+    if(session?.status === "authenticated"){
+      router.replace("/");
+    }
+  }, [session, router]);
+
+  const { enqueueSnackbar } = useSnackbar();
 
   useEffect(() => {
     setError("");
-  }, [email, phone]);
+  }, [email, password]);
 
-  const handleRegister = async (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
     const emailRegex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/;
     const passwordRegex = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/;
-    const phoneRegex = /^\d{10}$/;
 
     if (!emailRegex.test(email)) {
       setError("Invalid email address");
@@ -45,38 +57,41 @@ const RegisterCard = ({ handleClose }) => {
       setError("Password must have at least 8 characters with a letter");
       return;
     }
-
-    if (!phoneRegex.test(phone)) {
-      setError("Invalid phone number. It must have 10 digits");
-      return;
-    }
-
-    setLoading(true);
     await fetchToRegister();
-    setError("");
   };
 
   const fetchToRegister = async () => {
     try {
-      // Agrega tu lógica de registro aquí
+      const res = await fetch("/api/register", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          email,
+          password,
+          name,
+        }),
+      })
 
-      // Ejemplo: Simulando un tiempo de espera
-      await new Promise((resolve) => setTimeout(resolve, 2000));
-
-      // Ejemplo de mensaje de registro exitoso
-      console.log("User registered successfully");
-
-      // Limpiar los campos después de un registro exitoso
-      setEmail("");
-      setPhone("");
-      setPassword("");
-      setName("");
+      if (res.status === 400) {
+        enqueueSnackbar("User already exists", { variant: "error" });
+      } else if (res.status === 500) {
+        enqueueSnackbar("An error occurred while registering", { variant: "error" });
+      } else if( res.status === 201) {
+        enqueueSnackbar("User created successfully", { variant: "success" });
+        router.push("/auth/login");
+      }
     } catch (error) {
       setError("An error occurred while registering");
     } finally {
-      setLoading(false);
+      setEmail("");
+      setPassword("");
+      setName("");
     }
   };
+
+  const handleShowClick = () => setShowPassword(!showPassword);
 
   return (
     <Flex
@@ -91,7 +106,7 @@ const RegisterCard = ({ handleClose }) => {
         <Avatar bg="teal.500" />
         <Heading color="teal.400">Create an Account</Heading>
         <Box minW={{ base: "90%", md: "468px" }}>
-          <form onSubmit={handleRegister}>
+          <form onSubmit={handleSubmit}>
             <Stack
               spacing={4}
               p="1rem"
@@ -104,7 +119,7 @@ const RegisterCard = ({ handleClose }) => {
                   <InputLeftElement
                     pointerEvents="none"
                     color="gray.300"
-                    children={<AddIcon />} // Cambiado a icono de Chakra UI
+                    children={<AddIcon />}
                   />
                   <Input
                     type="text"
@@ -120,14 +135,13 @@ const RegisterCard = ({ handleClose }) => {
                   <InputLeftElement
                     pointerEvents="none"
                     color="gray.300"
-                    children={<EmailIcon />} // Cambiado a icono de Chakra UI
+                    children={<EmailIcon />}
                   />
                   <Input
                     type="email"
                     placeholder="Email address"
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
-                    isInvalid={error !== "" && !email}
                   />
                 </InputGroup>
               </FormControl>
@@ -136,32 +150,29 @@ const RegisterCard = ({ handleClose }) => {
                   <InputLeftElement
                     pointerEvents="none"
                     color="gray.300"
-                    children={<LockIcon />} // Cambiado a icono de Chakra UI
+                    children={<LockIcon />}
                   />
                   <Input
-                    type="password"
+                    type={showPassword ? "text" : "password"}
                     placeholder="Password"
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
-                    isInvalid={error !== "" && !password}
                   />
                   <InputRightElement width="4.5rem">
-                    <Button
-                      h="1.75rem"
-                      size="sm"
-                      onClick={() => {}} // Agrega tu lógica para mostrar/ocultar la contraseña
-                    >
-                      Show
+                  <Button h="1.75rem" size="sm" onClick={handleShowClick}>
+                      {showPassword ? "Hide" : "Show"}
                     </Button>
                   </InputRightElement>
                 </InputGroup>
+                {error !== "" && (
+                    <Text color="red.500">{error}</Text>
+                  )}
               </FormControl>
               <Button
                 type="submit"
                 variant="solid"
                 colorScheme="teal"
                 width="full"
-                isLoading={loading}
               >
                 Register
               </Button>
@@ -169,9 +180,9 @@ const RegisterCard = ({ handleClose }) => {
           </form>
         </Box>
       </Stack>
-      <Box>
+      <Box mt={4}>
         Already have an account?{" "}
-        <Link color="teal.500" href="#">
+        <Link style={{ color: "blue", margin: "0 5px", cursor: "pointer" }} href="/auth/login">
           Log In
         </Link>
       </Box>

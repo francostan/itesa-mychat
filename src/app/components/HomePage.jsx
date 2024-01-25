@@ -1,9 +1,14 @@
-import ChatView from './ChatView';
 import { Box } from '@chakra-ui/react';
 import HomeCard from './cards/HomeCard';
+import { useSession } from 'next-auth/react';
+import dynamic from 'next/dynamic';
+
+const ChatView = dynamic(() => import('./ChatView'));
 
 const HomePage = () => {
-  return (
+ const { data: session } = useSession();
+
+ return (
     <Box
       backgroundColor="gray.200"
       height="100vh"
@@ -12,9 +17,9 @@ const HomePage = () => {
       justifyContent="center"
       alignItems="center"
     >
-      <HomeCard />
+      {session?.user?.email ? <ChatView session={session} /> : <HomeCard />}
     </Box>
-  );
+ );
 };
 
 export default HomePage;

@@ -1,6 +1,7 @@
 "use client";
 import { Box, Text, Button, VStack, useColorModeValue } from "@chakra-ui/react";
 import Image from "next/image";
+import Link from "next/link";
 
 const HomeCard = () => {
   const bgColor = useColorModeValue("gray.100", "gray.700");
@@ -36,8 +37,12 @@ const HomeCard = () => {
       >
         <VStack spacing="6" align="stretch">
           <Text fontSize="3xl" fontWeight="bold" color={textColor} textAlign="center">Bienvenido a myChat</Text>
+          <Link href="/auth/login">
           <Button colorScheme="blue" size="lg" w="full" rounded="full">Iniciar sesión</Button>
+          </Link>
+          <Link href="/auth/register">
           <Button colorScheme="green" size="lg" w="full" rounded="full">Registrarse</Button>
+          </Link>
         </VStack>
       </Box>
     </Box>
