@@ -14,9 +14,8 @@ export async function POST(request: Request) {
  }
 
  const client = new NLPCloudClient({
-    model: 'finetuned-llama-2-70b',
+    model: 'dolphin',
     token: NPLKEY,
-    gpu: true
  });
 
  try {
