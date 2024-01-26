@@ -21,7 +21,7 @@ export async function POST(request: Request) {
 
  try {
     // Add delay before making the request
-    await new Promise(resolve => setTimeout(resolve, 1000));
+    await new Promise(resolve => setTimeout(resolve, 2500));
 
     const response = await client.chatbot({
       input: message,
