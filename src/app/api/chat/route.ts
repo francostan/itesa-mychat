@@ -6,6 +6,10 @@ const NLPKEY = process.env.NPL_KEY;
 export async function POST(request: Request) {
  const { message, history } = await request.json();
 
+ if (!NLPKEY) {
+    return new NextResponse(JSON.stringify({ error: 'NLP_KEY is not defined' }), { status: 500 });
+ }
+
  const client = new NLPCloudClient({
     model: 'dolphin',
     token: NLPKEY,

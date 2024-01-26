@@ -11,6 +11,10 @@ export async function GET(request: Request) {
   try {
     await connectToDatabase();
 
+    // loguear info en la consola de vercel
+    console.log('User email:', userEmail);
+    console.log('Date:', date);
+
     if (!userEmail || !date) {
       return new NextResponse(JSON.stringify({ error: 'User email and date are required parameters' }), { status: 400 });
     }
