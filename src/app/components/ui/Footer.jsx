@@ -7,11 +7,12 @@ const Footer = ({ inputMessage, setInputMessage, handleSendMessage }) => {
       <Input
         placeholder="Escribe tu mensaje..."
         marginRight="2"
-        backgroundColor='white'
+        backgroundColor="white"
         borderRadius="md"
-        boxShadow="md"
+        boxShadow="sm"
         _focus={{
           border: "1px solid black",
+          color: "black",
         }}
         onKeyPress={(e) => {
           if (e.key === "Enter") {
@@ -20,6 +21,8 @@ const Footer = ({ inputMessage, setInputMessage, handleSendMessage }) => {
         }}
         value={inputMessage}
         onChange={(e) => setInputMessage(e.target.value)}
+        cursor="text"
+        padding="3"
       />
       <Button
         colorScheme="teal"

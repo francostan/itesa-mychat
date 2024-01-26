@@ -21,6 +21,7 @@ const HomeCard = () => {
           layout="fill"
           objectFit="cover"
           style={{ filter: "blur(10px)" }}
+          sizes={"(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"}
         />
       </Box>
       <Box

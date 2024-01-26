@@ -11,7 +11,15 @@ const LogOutButton = () => {
 
   return (
     <Box position="absolute" top="10" right="10">
-      <Button colorScheme="red" onClick={handleLogout} leftIcon={<CloseIcon />}>
+      <Button
+        colorScheme="red"
+        onClick={handleLogout}
+        leftIcon={<CloseIcon />}
+        size={{ base: "sm", md: "md" }}
+        margin={{ base: "auto", md: "0" }}
+        _hover={{ bg: "red.500", color: "white" }}
+        mb="3"
+      >
         Logout
       </Button>
     </Box>
