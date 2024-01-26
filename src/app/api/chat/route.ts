@@ -1,21 +1,21 @@
 import NLPCloudClient from "nlpcloud";
 import { NextResponse } from "next/server";
 
-const NLPKEY = process.env.NPL_KEY;
+const NPLKEY = process.env.NPL_KEY;
 
 export async function POST(request: Request) {
  const { message, history } = await request.json();
 
  console.log(message, history);
- console.log(NLPKEY);
+ console.log(NPLKEY);
 
- if (!NLPKEY) {
+ if (!NPLKEY) {
     return new NextResponse(JSON.stringify({ error: 'NLP_KEY is not defined' }), { status: 400 });
  }
 
  const client = new NLPCloudClient({
     model: 'finetuned-llama-2-70b',
-    token: NLPKEY,
+    token: NPLKEY,
     gpu: true
  });
 
@@ -25,7 +25,7 @@ export async function POST(request: Request) {
       context: 'This is a conversation with an AI assistant. Ai is helpful, creative, clever, and very friendly, her name is Valeria.',
       history: history || [],
     });
-
+    console.log(response.data);
     return new NextResponse(JSON.stringify(response.data), { status: 200 });
  } catch (error) {
    console.log(error);

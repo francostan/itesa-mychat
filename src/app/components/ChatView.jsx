@@ -8,6 +8,7 @@ import LogOutButton from "../components/buttons/LogOutButton";
 import { getMessages, postMessage, sendMessageToAI } from "../utils";
 
 const ChatView = ({ session }) => {
+  
   const { user } = session;
   const [messages, setMessages] = useState([
     {
