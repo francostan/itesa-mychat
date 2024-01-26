@@ -13,15 +13,15 @@ export async function POST(request: Request) {
     return new NextResponse(JSON.stringify({ error: 'NLP_KEY is not defined' }), { status: 400 });
  }
 
- const client = new NLPCloudClient({
-    model: 'chatdolphin',
-    token: NPLKEY,
-    gpu: true,
- });
-
  try {
     // Add delay before making the request
     await new Promise(resolve => setTimeout(resolve, 4500));
+
+    const client = new NLPCloudClient({
+      model: 'chatdolphin',
+      token: NPLKEY,
+      gpu: true,
+   });
 
     const response = await client.chatbot({
       input: message,
