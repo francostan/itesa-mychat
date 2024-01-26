@@ -11,7 +11,7 @@ export async function POST(request: Request) {
  }
 
  const client = new NLPCloudClient({
-    model: 'dolphin',
+    model: 'chatdolphin',
     token: NLPKEY,
     gpu: true
  });
