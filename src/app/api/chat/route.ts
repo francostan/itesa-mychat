@@ -20,6 +20,9 @@ export async function POST(request: Request) {
  });
 
  try {
+    // Add delay before making the request
+    await new Promise(resolve => setTimeout(resolve, 1000));
+
     const response = await client.chatbot({
       input: message,
       context: 'This is a conversation with an AI assistant. Ai is helpful, creative, clever, and very friendly, her name is Valeria.',
