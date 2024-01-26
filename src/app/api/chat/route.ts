@@ -11,7 +11,7 @@ export async function POST(request: Request) {
  }
 
  const client = new NLPCloudClient({
-    model: 'chatdolphin',
+    model: 'finetuned-llama-2-70b',
     token: NLPKEY,
     gpu: true
  });
@@ -25,6 +25,7 @@ export async function POST(request: Request) {
 
     return new NextResponse(JSON.stringify(response.data), { status: 200 });
  } catch (error) {
-    return new NextResponse(JSON.stringify(error), { status: 500 });
+   console.log(error);
+    return new NextResponse(JSON.stringify(error), { status: 500});
  }
 }
