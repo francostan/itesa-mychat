@@ -9,52 +9,60 @@ const Messages = ({ messages }) => {
   };
 
   return (
-    <Flex w="100%" h="80%" overflowY="scroll" flexDirection="column" p="3">
-    {messages.map((item, index) => {
-      const commonMessageStyles = {
-        minW: "100px",
-        maxW: "350px",
-        my: "1",
-        p: "3",
-        borderRadius: "10px",
-      };
-  
-      if (item.from === "me") {
-        return (
-          <Flex key={index} w="100%" justify="flex-end">
-            <Flex
-              bg="gray.500"
-              color="white"
-              alignSelf="flex-end"
-              {...commonMessageStyles}
-            >
-              <Text>{item.text}</Text>
+    <Flex w="100%" h="88%" overflowY="scroll" sx={{
+      "&::-webkit-scrollbar": {
+        width: "6px", // Ancho de la barra de desplazamiento
+      },
+      "&::-webkit-scrollbar-thumb": {
+        backgroundColor: "gray.500", // Color de la barra de desplazamiento
+        borderRadius: "10px", // Redondeo de las esquinas de la barra de desplazamiento
+      },
+    }} flexDirection="column" p="3">
+      {messages.map((item, index) => {
+        const commonMessageStyles = {
+          minW: "100px",
+          maxW: "350px",
+          my: "1",
+          p: "3",
+          borderRadius: "10px",
+        };
+
+        if (item.from === "me") {
+          return (
+            <Flex key={index} w="100%" justify="flex-end">
+              <Flex
+                bg="gray.500"
+                color="white"
+                alignSelf="flex-end"
+                {...commonMessageStyles}
+              >
+                <Text>{item.text}</Text>
+              </Flex>
             </Flex>
-          </Flex>
-        );
-      } else {
-        return (
-          <Flex key={index} w="100%">
-            <Avatar
-              name="Computer"
-              src="https://avataaars.io/?avatarStyle=Transparent&topType=LongHairStraight&accessoriesType=Blank&hairColor=BrownDark&facialHairType=Blank&clotheType=BlazerShirt&eyeType=Default&eyebrowType=Default&mouthType=Default&skinColor=Light"
-              bg="blue.300"
-              mr="2"
-            />
-            <Flex
-              bg="teal.500"
-              color="white"
-              alignSelf="flex-start"
-              {...commonMessageStyles}
-            >
-              <Text>{item.text}</Text>
+          );
+        } else {
+          return (
+            <Flex key={index} w="100%">
+              <Avatar
+                name="Computer"
+                src="https://avataaars.io/?avatarStyle=Transparent&topType=LongHairStraight&accessoriesType=Blank&hairColor=BrownDark&facialHairType=Blank&clotheType=BlazerShirt&eyeType=Default&eyebrowType=Default&mouthType=Default&skinColor=Light"
+                bg="blue.300"
+                mr="2"
+              />
+              <Flex
+                bg="teal.500"
+                color="white"
+                alignSelf="flex-start"
+                {...commonMessageStyles}
+              >
+                <Text>{item.text}</Text>
+              </Flex>
             </Flex>
-          </Flex>
-        );
-      }
-    })}
-    <AlwaysScrollToBottom />
-  </Flex>
+          );
+        }
+      })}
+      <AlwaysScrollToBottom />
+    </Flex>
   );
 };
 

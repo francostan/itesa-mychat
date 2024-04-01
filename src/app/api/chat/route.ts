@@ -1,37 +1,43 @@
-import NLPCloudClient from "nlpcloud";
 import { NextResponse } from "next/server";
+import { GoogleGenerativeAI } from "@google/generative-ai";
+import { generateHistory } from "../../utils";
 
-const NPLKEY = process.env.NPL_KEY;
+const genAI = new GoogleGenerativeAI(process.env.API_KEY);
 
 export async function POST(request: Request) {
- const { message, history } = await request.json();
+  const { message, history } = await request.json();
 
- console.log(message, history);
- console.log(NPLKEY);
+  console.log(message, history);
 
- if (!NPLKEY) {
-    return new NextResponse(JSON.stringify({ error: 'NLP_KEY is not defined' }), { status: 400 });
- }
-
- try {
-    // Add delay before making the request
-    await new Promise(resolve => setTimeout(resolve, 4500));
-
-    const client = new NLPCloudClient({
-      model: 'chatdolphin',
-      token: NPLKEY,
-      gpu: true,
-   });
-
-    const response = await client.chatbot({
-      input: message,
-      context: 'This is a conversation with an AI assistant. Ai is helpful, creative, clever, and very friendly, her name is Valeria.',
-      history: history || [],
+  if (!genAI) {
+    return new NextResponse(JSON.stringify({ error: "genAI is not defined" }), {
+      status: 400,
     });
-    console.log(response.data);
-    return new NextResponse(JSON.stringify(response.data), { status: 200 });
- } catch (error) {
-   console.log(error);
-    return new NextResponse(JSON.stringify(error), { status: 500});
- }
+  }
+
+  try {
+    const model = genAI.getGenerativeModel({ model: "gemini-pro" });
+
+    let generatedHistory = generateHistory(history);
+
+    const chat = model.startChat({
+      history: generatedHistory,
+      generationConfig: {
+        maxOutputTokens: 100,
+        temperature: 0.9,
+        topP: 0.1,
+        topK: 16,
+      },
+    });
+
+    const result = await model.generateContent(message);
+    const response = await result.response;
+    const text = response.text();
+    return new NextResponse(JSON.stringify({ response: text }), {
+      status: 200,
+    });
+  } catch (error) {
+    console.log(error);
+    return new NextResponse(JSON.stringify(error), { status: 500 });
+  }
 }

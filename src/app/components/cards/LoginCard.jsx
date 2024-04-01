@@ -91,7 +91,6 @@ const LoginCard = () => {
       justify="center"
       w="100wh"
       h="100vh"
-      bg="gray.200"
     >
       <Stack spacing={4} align="center">
         <Avatar bg="teal.500" />

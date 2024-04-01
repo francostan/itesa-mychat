@@ -1,15 +1,17 @@
 import React from "react";
-import { Flex, Input, Button } from "@chakra-ui/react";
+import { Flex, Input, Button, IconButton } from "@chakra-ui/react";
+import { MdSend } from "react-icons/md";
 
 const Footer = ({ inputMessage, setInputMessage, handleSendMessage }) => {
   return (
-    <Flex w="100%" mt="5">
+    <Flex w="100%" minH={"10%"} mt={"auto"} >
       <Input
-        placeholder="Escribe tu mensaje..."
-        marginRight="2"
+        placeholder="Chatea con Valeria <3"
+        marginRight="1"
         backgroundColor="white"
         borderRadius="md"
         boxShadow="sm"
+        height={"100%"}
         _focus={{
           border: "1px solid black",
           color: "black",
@@ -24,18 +26,18 @@ const Footer = ({ inputMessage, setInputMessage, handleSendMessage }) => {
         cursor="text"
         padding="3"
       />
-      <Button
+     <IconButton
+        icon={<MdSend />}
         colorScheme="teal"
-        _hover={{
+        height={"95%"}
+        _hover={inputMessage.trim().length > 0 && {
           bg: "white",
           color: "black",
           border: "1px solid black",
         }}
         disabled={inputMessage.trim().length <= 0}
         onClick={handleSendMessage}
-      >
-        Send
-      </Button>
+      />
     </Flex>
   );
 };

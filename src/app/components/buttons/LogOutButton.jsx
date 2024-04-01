@@ -1,29 +1,29 @@
-"use client";
 import React from "react";
-import { CloseIcon } from "@chakra-ui/icons";
-import { Button, Box } from "@chakra-ui/react";
+import { IconButton, Tooltip } from "@chakra-ui/react";
+import { MdLogout } from "react-icons/md"; // Importa el icono de cierre de sesión
 import { signOut } from "next-auth/react";
 
 const LogOutButton = () => {
-  const handleLogout = () => {
+ const handleLogout = () => {
     signOut({ callbackUrl: "/" });
-  };
+ };
 
-  return (
-    <Box position="absolute" top="10" right="10">
-      <Button
+ return (
+    <Tooltip label="Logout" placement="left">
+      <IconButton
+        aria-label="Logout"
+        icon={<MdLogout />}
         colorScheme="red"
         onClick={handleLogout}
-        leftIcon={<CloseIcon />}
-        size={{ base: "sm", md: "md" }}
-        margin={{ base: "auto", md: "0" }}
-        _hover={{ bg: "red.500", color: "white" }}
+        position="absolute"
+        top="10"
+        right="10"
+        size="md"
+        _hover={{ bg: "red.700", color: "white" }}
         mb="3"
-      >
-        Logout
-      </Button>
-    </Box>
-  );
+      />
+    </Tooltip>
+ );
 };
 
 export default LogOutButton;

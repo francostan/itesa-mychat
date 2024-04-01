@@ -41,3 +41,17 @@ export const sendMessageToAI = async (message, history) => {
     console.error(error);
   }
 }
+
+export const generateHistory = (history) => {
+  let generatedHistory = [];
+  if(history && history.length) {
+     history
+       .filter(item => item.input && item.response)
+       .forEach(item => {
+         const { input, response } = item;
+         generatedHistory.push({ role: "user", parts: [{ text: input }] },
+                                { role: "model", parts: [{ text: response }] });
+       });
+  }
+  return generatedHistory;
+ }

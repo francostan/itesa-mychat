@@ -1,6 +1,6 @@
 "use client";
 import React, { useEffect, useState } from "react";
-import { Flex } from "@chakra-ui/react";
+import { Flex, Spinner } from "@chakra-ui/react";
 import Divider from "../components/ui/Divider";
 import Footer from "../components/ui/Footer";
 import Messages from "../components/ui/Messages";
@@ -13,13 +13,15 @@ const ChatView = ({ session }) => {
   const [messages, setMessages] = useState([
     {
       from: "computer",
-      text: `Hola ${user.name}!, mi nombre es Valeria, ¿en que te puedo ayudar? `,
+      text: `Hola ${user.name}! mi nombre es Valeria y utilizo Gemini AI, ¿en que te puedo ayudar?`,
     },
   ]);
   const [inputMessage, setInputMessage] = useState("");
   const [history, setHistory] = useState([]);
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
+    setLoading(true);
     const date = new Date();
     getMessages(user.email, date).then((data) => {
       setHistory(data?.messages || []);
@@ -35,6 +37,8 @@ const ChatView = ({ session }) => {
 
       setMessages(Array.from(uniqueNewMessages));
     });
+
+    setLoading(false);
   }, []);
 
   const handleSendMessage = async () => {
@@ -51,7 +55,7 @@ const ChatView = ({ session }) => {
     setTimeout(() => {
       setMessages((old) => [
         ...old,
-        { from: "computer", text: aiResponse.response },
+        { from: "computer", text: aiResponse?.response || "" },
       ]);
     }, 1000);
 
@@ -67,17 +71,19 @@ const ChatView = ({ session }) => {
 
   return (
     <Flex
-      w="100%"
+      w="50%"
       justify="center"
       align="center"
       maxHeight={["100vh", "100vh", "90vh"]}
       minHeight="90vh"
+      backgroundColor={"gray.100"}
+      borderRadius={"lg"}
+      boxShadow="lg"
+      p="3"
     >
       <LogOutButton />
-      <Flex w={["100%", "100%", "40%"]} h="90%" flexDir="column">
-        <Divider />
-        <Messages messages={messages} />
-        <Divider />
+      <Flex w={"100%"} h="100%" flexDir="column">
+        {loading ? <Spinner size="xl" /> : <Messages messages={messages} /> }
         <Footer
           inputMessage={inputMessage}
           setInputMessage={setInputMessage}
