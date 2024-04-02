@@ -1,6 +1,6 @@
 "use client";
 import React, { useEffect, useState } from "react";
-import { Flex, Spinner } from "@chakra-ui/react";
+import { Flex, Spinner, Box } from "@chakra-ui/react";
 import Divider from "../components/ui/Divider";
 import Footer from "../components/ui/Footer";
 import Messages from "../components/ui/Messages";
@@ -70,27 +70,28 @@ const ChatView = ({ session }) => {
   };
 
   return (
-    <Flex
-      w={{ base: "95%", md: "50%" }}
-      justify="center"
-      align="center"
-      maxHeight={{ base: "75vh", md: ["100vh", "100vh", "90vh"] }}
-      minHeight={{ base: "75vh", md: ["100vh", "100vh", "90vh"] }}
-      backgroundColor={"gray.100"}
-      borderRadius={"lg"}
-      boxShadow="lg"
-      p="3"
-    >
-      <LogOutButton />
-      <Flex w={"100%"} h="100%" flexDir="column">
-        {loading ? <Spinner size="xl" /> : <Messages messages={messages} />}
-        <Footer
-          inputMessage={inputMessage}
-          setInputMessage={setInputMessage}
-          handleSendMessage={handleSendMessage}
-        />
+      <Flex
+        w={{ base: "95%", md: "50%" }}
+        justify="center"
+        align="center"
+        height="100%"
+        maxHeight={{ base: "70vh", md: ["100vh", "100vh", "90vh"] }}
+        minHeight={{ base: "70vh", md: ["100vh", "100vh", "90vh"] }}
+        backgroundColor={"gray.100"}
+        borderRadius={"lg"}
+        boxShadow="lg"
+        p="3"
+      >
+        <LogOutButton />
+        <Flex w={"100%"} h="100%" flexDir="column">
+          {loading ? <Spinner size="xl" /> : <Messages messages={messages} />}
+          <Footer
+            inputMessage={inputMessage}
+            setInputMessage={setInputMessage}
+            handleSendMessage={handleSendMessage}
+          />
+        </Flex>
       </Flex>
-    </Flex>
   );
 };
 

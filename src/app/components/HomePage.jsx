@@ -26,7 +26,7 @@ const HomePage = () => {
 
  return (
     <Box
-      height="100vh"
+      height={{ base: "100vh", md: "100vh", lg: "100vh" }}
       display="flex"
       flexDirection="column"
       justifyContent="center"
