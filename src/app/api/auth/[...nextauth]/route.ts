@@ -5,7 +5,6 @@ import bcrypt from "bcrypt";
 import User from "../../../models/User";
 import { connectToDatabase } from "../../../lib/mongodb";
 
-const nextAuthSecret = process.env.NEXTAUTH_SECRET;
 
 const options = {
  providers: [
@@ -42,7 +41,6 @@ const options = {
       }
     },
  },
- secret: nextAuthSecret,
 };
 
 export const GET = NextAuth(options);
