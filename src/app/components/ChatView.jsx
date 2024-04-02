@@ -8,7 +8,7 @@ import LogOutButton from "../components/buttons/LogOutButton";
 import { getMessages, postMessage, sendMessageToAI } from "../utils";
 
 const ChatView = ({ session }) => {
-  
+
   const { user } = session;
   const [messages, setMessages] = useState([
     {
@@ -71,11 +71,11 @@ const ChatView = ({ session }) => {
 
   return (
     <Flex
-      w="50%"
+      w={{ base: "95%", md: "50%" }}
       justify="center"
       align="center"
-      maxHeight={["100vh", "100vh", "90vh"]}
-      minHeight="90vh"
+      maxHeight={{ base: "75vh", md: ["100vh", "100vh", "90vh"] }}
+      minHeight={{ base: "75vh", md: ["100vh", "100vh", "90vh"] }}
       backgroundColor={"gray.100"}
       borderRadius={"lg"}
       boxShadow="lg"
@@ -83,7 +83,7 @@ const ChatView = ({ session }) => {
     >
       <LogOutButton />
       <Flex w={"100%"} h="100%" flexDir="column">
-        {loading ? <Spinner size="xl" /> : <Messages messages={messages} /> }
+        {loading ? <Spinner size="xl" /> : <Messages messages={messages} />}
         <Footer
           inputMessage={inputMessage}
           setInputMessage={setInputMessage}

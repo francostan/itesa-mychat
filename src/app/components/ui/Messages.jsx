@@ -42,9 +42,10 @@ const Messages = ({ messages }) => {
           );
         } else {
           return (
-            <Flex key={index} w="100%">
+            <Flex key={index} w="100%" justify="flex-start">
               <Avatar
                 name="Computer"
+                size="sm"
                 src="https://avataaars.io/?avatarStyle=Transparent&topType=LongHairStraight&accessoriesType=Blank&hairColor=BrownDark&facialHairType=Blank&clotheType=BlazerShirt&eyeType=Default&eyebrowType=Default&mouthType=Default&skinColor=Light"
                 bg="blue.300"
                 mr="2"
