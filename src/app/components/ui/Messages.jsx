@@ -1,6 +1,10 @@
 import React, { useEffect, useRef } from "react";
 import { Avatar, Flex, Text } from "@chakra-ui/react";
 
+import MarkdownIt from "markdown-it";
+
+const md = new MarkdownIt();
+
 const Messages = ({ messages }) => {
   const AlwaysScrollToBottom = () => {
     const elementRef = useRef();
@@ -20,10 +24,9 @@ const Messages = ({ messages }) => {
     }} flexDirection="column" p="3">
       {messages.map((item, index) => {
         const commonMessageStyles = {
-          minW: "100px",
           maxW: "350px",
           my: "1",
-          p: "3",
+          p: "4",
           borderRadius: "10px",
         };
 
@@ -42,7 +45,7 @@ const Messages = ({ messages }) => {
           );
         } else {
           return (
-            <Flex key={index} w="100%" justify="flex-start">
+            <Flex key={index} w="100%" justify="flex-start" alignItems="center">
               <Avatar
                 name="Computer"
                 size="sm"
@@ -53,10 +56,12 @@ const Messages = ({ messages }) => {
               <Flex
                 bg="teal.500"
                 color="white"
-                alignSelf="flex-start"
+                justify="center"
+                alignItems="center"
+                flex="1"
                 {...commonMessageStyles}
               >
-                <Text>{item.text}</Text>
+                <Text w="100%" whiteSpace="pre-wrap" dangerouslySetInnerHTML={{ __html: md.renderInline(item.text) }}></Text>
               </Flex>
             </Flex>
           );
