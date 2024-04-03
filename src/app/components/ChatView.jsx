@@ -19,6 +19,7 @@ const ChatView = ({ session }) => {
   const [inputMessage, setInputMessage] = useState("");
   const [history, setHistory] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [isAnswered, setIsAnswered] = useState(false);
 
   useEffect(() => {
     setLoading(true);
@@ -42,6 +43,7 @@ const ChatView = ({ session }) => {
   }, []);
 
   const handleSendMessage = async () => {
+    setIsAnswered(true);
     if (!inputMessage.trim().length) {
       return;
     }
@@ -62,6 +64,7 @@ const ChatView = ({ session }) => {
     setTimeout(async () => {
       await handleSaveMessage({ input: data, response: aiResponse.response });
     }, 200);
+    setIsAnswered(false);
   };
 
   const handleSaveMessage = async (message) => {
@@ -88,6 +91,7 @@ const ChatView = ({ session }) => {
             inputMessage={inputMessage}
             setInputMessage={setInputMessage}
             handleSendMessage={handleSendMessage}
+            isAnswered={isAnswered}
           />
         </Flex>
       </Flex>

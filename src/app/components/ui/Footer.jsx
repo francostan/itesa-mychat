@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Flex, Input, Button, IconButton } from "@chakra-ui/react";
 import { MdSend } from "react-icons/md";
 
-const Footer = ({ inputMessage, setInputMessage, handleSendMessage }) => {
+const Footer = ({ inputMessage, setInputMessage, handleSendMessage, isAnswered }) => {
   const [isSended, setIsSended] = useState(false);
   return (
     <Flex w="100%" minH={"10%"} mt={"auto"} >
@@ -31,6 +31,7 @@ const Footer = ({ inputMessage, setInputMessage, handleSendMessage }) => {
           setIsSended(false);
           setInputMessage(e.target.value)
         }}
+        disabled={isAnswered}
         cursor="text"
         padding="3"
       />
