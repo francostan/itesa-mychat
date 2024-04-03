@@ -1,8 +1,9 @@
-import React from "react";
+import React, { useState } from "react";
 import { Flex, Input, Button, IconButton } from "@chakra-ui/react";
 import { MdSend } from "react-icons/md";
 
 const Footer = ({ inputMessage, setInputMessage, handleSendMessage }) => {
+  const [isSended, setIsSended] = useState(false);
   return (
     <Flex w="100%" minH={"10%"} mt={"auto"} >
       <Input
@@ -18,11 +19,18 @@ const Footer = ({ inputMessage, setInputMessage, handleSendMessage }) => {
         }}
         onKeyPress={(e) => {
           if (e.key === "Enter") {
+            if (!inputMessage) return;
+            if (isSended) return;
+            e.preventDefault();
+            setIsSended(true);
             handleSendMessage();
           }
         }}
-        value={inputMessage}
-        onChange={(e) => setInputMessage(e.target.value)}
+        value={isSended ? "" : inputMessage}
+        onChange={(e) => {
+          setIsSended(false);
+          setInputMessage(e.target.value)
+        }}
         cursor="text"
         padding="3"
       />
@@ -30,12 +38,12 @@ const Footer = ({ inputMessage, setInputMessage, handleSendMessage }) => {
         icon={<MdSend />}
         colorScheme="teal"
         height={"95%"}
-        _hover={inputMessage.trim().length > 0 && {
+        _hover={{
           bg: "white",
-          color: "black",
-          border: "1px solid black",
+          color: "gray.500",
+          border: "1px solid gray.500",
         }}
-        disabled={inputMessage.trim().length <= 0}
+        disabled={isSended}
         onClick={handleSendMessage}
       />
     </Flex>

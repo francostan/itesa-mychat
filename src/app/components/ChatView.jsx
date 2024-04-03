@@ -57,16 +57,15 @@ const ChatView = ({ session }) => {
         ...old,
         { from: "computer", text: aiResponse?.response || "" },
       ]);
-    }, 1000);
+    }, 100);
 
     setTimeout(async () => {
       await handleSaveMessage({ input: data, response: aiResponse.response });
-    }, 2000);
+    }, 200);
   };
 
   const handleSaveMessage = async (message) => {
     const data = await postMessage(user.email, new Date(), message);
-    console.log(data);
   };
 
   return (

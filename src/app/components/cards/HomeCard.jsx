@@ -38,7 +38,6 @@ const HomeCard = () => {
             <Button colorScheme="green" size="lg" w="full" rounded="full">Registrarse</Button>
           </Link>
         </VStack>
-        <Text fontSize="sm" textAlign="center" color="gray.500">Created by Francostan</Text>
       </Box>
     </Box>
   );

@@ -24,7 +24,7 @@ const Messages = ({ messages }) => {
     }} flexDirection="column" p="3">
       {messages.map((item, index) => {
         const commonMessageStyles = {
-          maxW: "350px",
+          maxW: "400px",
           my: "1",
           p: "4",
           borderRadius: "10px",

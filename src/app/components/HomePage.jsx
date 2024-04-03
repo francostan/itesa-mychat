@@ -36,6 +36,7 @@ const HomePage = () => {
       p="4" // Ajusta el espaciado interno
     >
       {session?.user?.email ? <ChatView session={session} /> : <HomeCard />}
+      {session?.user?.email ? null : <Text mb={"-10px"} fontSize="sm" textAlign="left" color="gray.500">Created by Francostan</Text> }
     </Box>
  );
 };
