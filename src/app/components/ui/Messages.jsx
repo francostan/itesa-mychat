@@ -25,6 +25,7 @@ const Messages = ({ messages }) => {
       {messages.map((item, index) => {
         const commonMessageStyles = {
           maxW: "400px",
+          minW: "200px",
           my: "1",
           p: "4",
           borderRadius: "10px",
